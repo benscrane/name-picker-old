@@ -1,7 +1,7 @@
 <script>
-  let schoolName = 'Test School';
+  import { user } from '../../stores';
 </script>
 
 <div>
-  <h1 class="title is-4">Menu Admin / {schoolName}</h1>
+  <h1 class="title is-4">Menu Admin / {$user.schoolName}</h1>
 </div>
