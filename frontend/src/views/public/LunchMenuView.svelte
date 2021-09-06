@@ -1,3 +1,9 @@
 <div>
-  <h1 class="title is-4">Menu View</h1>
+  <nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+      <li>
+        <a href="/">Home</a>
+      </li>
+    </ul>
+  </nav>
 </div>
