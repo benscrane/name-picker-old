@@ -1,17 +1,21 @@
 <script>
   import { onMount } from 'svelte';
   import axios from 'axios';
+  import Icon from 'svelte-awesome';
+  import { refresh } from 'svelte-awesome/icons';
   import { user } from '../../stores';
   import { navigateTo } from 'svelte-router-spa';
 
   let lunchWeekList = [];
+  let loading = true;
 
   onMount(async () => {
     try {
       const response = await axios.get(
-        'https://3000-olive-yak-8ifswvvp.ws-us15.gitpod.io/api/lunch-week'
+        `${process.env.API_ROOT}/api/lunch-week`
       );
       lunchWeekList = response.data;
+      loading = false;
     } catch (error) {
       console.error(error);
     }
@@ -37,22 +41,28 @@
       </li>
     </ul>
   </nav>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Week Of</th>
-        <th>Published</th>
-      </tr>
-    </thead>
-    {#each lunchWeekList as lunchWeek}
-      <tr
-        on:click={openLunchWeekDetails(lunchWeek)}
-        class="has-text-link"
-        style="cursor: pointer"
-      >
-        <td>{lunchWeek.weekOf}</td>
-        <td>{lunchWeek.isPublished}</td>
-      </tr>
-    {/each}
-  </table>
+  {#if loading}
+    <div class="section">
+      <Icon spin data={refresh} scale="3" />
+    </div>
+  {:else}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Week Of</th>
+          <th>Published</th>
+        </tr>
+      </thead>
+      {#each lunchWeekList as lunchWeek}
+        <tr
+          on:click={openLunchWeekDetails(lunchWeek)}
+          class="has-text-link"
+          style="cursor: pointer"
+        >
+          <td>{lunchWeek.weekOf}</td>
+          <td>{lunchWeek.isPublished}</td>
+        </tr>
+      {/each}
+    </table>
+  {/if}
 </div>

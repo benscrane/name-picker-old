@@ -5,8 +5,13 @@ import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
+import replace from '@rollup/plugin-replace';
 
 const production = !process.env.ROLLUP_WATCH;
+
+const API_ROOT = production
+  ? ''
+  : 'https://3000-olive-yak-8ifswvvp.ws-us16.gitpod.io';
 
 function serve() {
   let server;
@@ -42,6 +47,9 @@ export default {
     file: 'public/build/bundle.js',
   },
   plugins: [
+    replace({
+      'process.env.API_ROOT': JSON.stringify(API_ROOT),
+    }),
     svelte({
       compilerOptions: {
         // enable run-time checks when not in production
